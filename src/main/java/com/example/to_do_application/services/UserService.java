@@ -1,5 +1,6 @@
 package com.example.to_do_application.services;
 
+import com.example.to_do_application.controllers.RegisterRequest;
 import com.example.to_do_application.entities.Role;
 import com.example.to_do_application.entities.User;
 import com.example.to_do_application.repositories.RoleRepository;
@@ -66,6 +67,10 @@ public class UserService {
         }
 
         return new HashSet<>(userRepository.findAll());
+    }
+
+    public void registerUser(RegisterRequest request) {
+
     }
 }
 
