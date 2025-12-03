@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="container">
+    <h1>Login</h1>
+    <form id="login-form">
+        <input type="text" id="username" placeholder="Användarnamn" required>
+        <input type="password" id="password" placeholder="Lösenord" required>
+        <button type="submit">Login</button>
+    </form>
+    <button onclick="goTo('index.html')">Tillbaka</button>
+</div>
+<script src="app.js"></script>
+<script>
+    document.getElementById('login-form').addEventListener('submit', async function(e){
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
 
+        const res = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({userName: username, password})
+        });
+
+        if(res.ok){
+            const data = await res.json();
+            localStorage.setItem('token', data.token);
+            goTo('todo.html');
+        } else {
+            alert('Login misslyckades');
+        }
+    });
+</script>
 </body>
 </html>

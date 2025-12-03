@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="container">
+    <h1>Register</h1>
+    <form id="register-form">
+        <input type="text" id="username" placeholder="Användarnamn" required>
+        <input type="password" id="password" placeholder="Lösenord" required>
+        <button type="submit">Register</button>
+    </form>
+    <button onclick="goTo('index.html')">Tillbaka</button>
+</div>
+<script src="app.js"></script>
+<script>
+    document.getElementById('register-form').addEventListener('submit', async function(e){
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
 
+        const res = await fetch('/auth/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({userName: username, password})
+        });
+
+        if(res.ok){
+            alert('Registrering lyckades');
+            goTo('login.html');
+        } else {
+            alert('Registrering misslyckades');
+        }
+    });
+</script>
 </body>
 </html>
