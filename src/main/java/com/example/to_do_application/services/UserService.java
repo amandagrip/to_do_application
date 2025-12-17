@@ -70,7 +70,24 @@ public class UserService {
     }
 
     public void registerUser(RegisterRequest request) {
+        String username = request.getUserName();
+        String password = request.getPassword();
 
+
+        if (userRepository.existsByUserName(username)) {
+            throw new RuntimeException("Username already exists");
+        }
+        User user = new User();
+        user.setUserName(username);
+        user.setPassword(passwordEncoder.encode(password));
+
+        Role userRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("ROLE_USER not found"));
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(userRole);
+        user.setRoles(roles);
+
+        userRepository.save(user);
     }
 }
-
